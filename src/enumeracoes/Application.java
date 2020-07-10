@@ -1,10 +1,17 @@
 package enumeracoes;
 
+import java.util.Date;
+
 public class Application {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
+		Order pedido = new Order (1080, new Date(), OrderStatus.AGUARDANDO_PAGAMENTO);
+		
+		System.out.println(pedido);
+		
+		
+		
 	}
 
 }
