@@ -1,62 +1,34 @@
 package enumeracoes3;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class Pedidos {
 	
+	SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
+
+	
 	private Date momento;
 	private StatusPedido status;
 	
+	private Clientes client;
+	
 	private List<ItemDePedido> itens = new ArrayList<>();
-	private List<Produtos> produtos = new ArrayList<>();
-	
-	public void listarDados(int quantidadeItens) {
-
-		String[] nomes = new String[quantidadeItens];
-		Double[] precos = new Double[quantidadeItens];
-		int[] quantidades = new int[quantidadeItens];
-		Double[] subTotais = new Double[quantidadeItens];
-
-		for (int i = 0; i < quantidadeItens; i++) {
-
-			for (Produtos produto : produtos) {
-				int contador = 0;
-				nomes[contador] = produto.getNome();
-				precos[contador] = produto.getPreco();
-				contador++;
-			}
-
-			for (ItemDePedido item : itens) {
-				int contador = 0;
-				quantidades[contador] = item.getQuantidade();
-				subTotais[contador] = item.subTotal();
-				contador++;
-			}
-
-		}
-
-		for (int j = 0; j < quantidadeItens; j++) {
-			System.out.print(nomes[j] + ", ");
-			System.out.print("R$" + precos[j] + ", ");
-			System.out.print("Quantidade: " + quantidades[j] + ", ");
-			System.out.println("Subtotal: " + subTotais[j]);
-
-		}
-
-	}
-    
   
+	public Pedidos() {	
+	}
 	
-	public Pedidos(Date momento, StatusPedido status) {
+	public Pedidos(Date momento, StatusPedido status, Clientes client) {
+		super();
 		this.momento = momento;
 		this.status = status;
+		this.client = client;
 	}
+
 	
-	public Pedidos(StatusPedido status) {
-		this.status = status;
-	}
+	
 
 	public Date getMomento() {
 		return momento;
@@ -74,22 +46,46 @@ public class Pedidos {
 		this.status = status;
 	}
 
-	
-	public void adicionarItem (ItemDePedido ItemDePedido, Produtos produto) {
-		itens.add(ItemDePedido);
-		produtos.add(produto);
+	public Clientes getClient() {
+		return client;
+	}
+
+	public void setClient(Clientes client) {
+		this.client = client;
 	}
 	
-	public void removerItem(ItemDePedido ItemDePedido, Produtos produto) {
+	public void adicionarItem (ItemDePedido ItemDePedido) {
+		itens.add(ItemDePedido);
+	}
+	
+	public void removerItem(ItemDePedido ItemDePedido) {
 		itens.remove(ItemDePedido);
-		produtos.remove(produto);
 	}
 	
 	public double valorTotal() {
-		return 0;
-		
+		double soma = 0.0;
+		for(ItemDePedido it : itens) {
+			soma += it.subTotal();
+		}
+		return soma;
 	}
-	
-	
+	    
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Order moment: ");
+		sb.append(data.format(momento) + "\n");
+		sb.append("Order status: ");
+		sb.append(status + "\n");
+		sb.append("Client: ");
+		sb.append(client + "\n");
+		sb.append("Order items:\n");
+		for (ItemDePedido item : itens) {
+			sb.append(item + "\n");
+		}
+		sb.append("Total price: $");
+		sb.append(String.format("%.2f", valorTotal()));
+		return sb.toString();
+	}
 	
 }

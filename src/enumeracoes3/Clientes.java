@@ -1,9 +1,13 @@
 package enumeracoes3;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Clientes {
+	
+	private static SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
 
+	
 	private String nome;
 	private String email;
 	private Date DataNasc;
@@ -50,7 +54,7 @@ public class Clientes {
 	
 	@Override
 	public String toString() {
-		return "Cliente: " + nome + " ("+ DataNasc +")" + " - " + email;
+		return "Cliente: " + nome + " ("+ data.format(DataNasc) +")" + " - " + email;
 	}
 	
 	
